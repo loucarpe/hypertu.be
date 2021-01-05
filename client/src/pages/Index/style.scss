@@ -1,0 +1,47 @@
+@import '../../assets/scss/utils.scss';
+
+div#index {
+  $thumbnail-width: 250px;
+
+  background: url('/background.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  div.sb-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    margin-top: 5em;
+  }
+
+  div.progress {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 50px;
+  }
+
+  div.movies {
+    padding: 5em 0;
+
+    div.thumnail-frame {
+      display: block;
+      width: $thumbnail-width;
+      height: calc(#{$thumbnail-width} / (2/3));
+      margin: 0 1em 3em 1em;
+      overflow: hidden;
+      border-radius: 12px;
+
+      @include media-breakpoint-down(xs) {
+        max-width: $thumbnail-width;
+        max-height: calc(#{$thumbnail-width} / (2/3));
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+}

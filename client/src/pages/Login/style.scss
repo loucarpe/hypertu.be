@@ -1,0 +1,63 @@
+@import '../../assets/scss/vars.scss';
+@import '../../assets/scss/utils.scss';
+
+div#login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $black;
+
+  // Material UI overrides
+  .MuiTab-textColorPrimary {
+    color: $black;
+  }
+  .Mui-selected {
+    color: $red;
+    font-weight: bold;
+  }
+  .MuiButton-outlinedSecondary {
+    color: $black-light;
+    border: 0.5px solid rgba(68, 68, 68, 0.5);
+  }
+  .MuiTabs-flexContainer {
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .card {
+    background-color: $light;
+    border-radius: 14px;
+    // height: 637px;
+    margin: 20px;
+
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+    .content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100% - 48px - 89px);
+    }
+
+    .foot {
+      padding: 24px 60px;
+
+      #oauth-group {
+        margin-top: 5px;
+
+        img {
+          width: 24px;
+          height: auto;
+        }
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      height: auto;
+
+      .foot {
+        padding: 24px 48px;
+      }
+    }
+  }
+}

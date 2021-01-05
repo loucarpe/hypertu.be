@@ -1,0 +1,36 @@
+@import '../../assets/scss/vars.scss';
+
+div#header {
+  background-color: $black;
+  padding: 0 1.5em;
+  height: $header-height;
+  position: fixed;
+  width: calc(100% - 3em);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 21;
+  justify-content: space-between;
+
+  div.logo {
+    width: 256px;
+  }
+
+  div.avatar {
+    cursor: pointer;
+  }
+
+  div.actions {
+    display: flex;
+    justify-content: space-around;
+   
+    div.action {
+      margin: 0 0.5em 0 0.5em;
+    }
+
+    div.avatar {
+      color: $light;
+      background-color: $black-light;
+    }
+  }
+}

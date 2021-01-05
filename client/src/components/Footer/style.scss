@@ -1,0 +1,18 @@
+@import '../../assets/scss/vars.scss';
+
+div#footer {
+  background-color: $black;
+  padding: 0 1.5em;
+  height: $footer-height;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 21;
+
+  p#copyright {
+    color: $light;
+    font-size: 0.8em;
+  }
+}

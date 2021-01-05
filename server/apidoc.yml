@@ -1,0 +1,885 @@
+openapi: 3.0.0
+
+info:
+  title: Hypertube API
+  description: ...
+  version: 0.2.0
+
+servers:
+  - url: http://localhost:5000
+  - url: https://api.hypertu.be
+
+tags:
+  - name: auth
+    description: Authentication system
+  - name: account
+    description: User acccount
+  - name: movies
+    description: Movies
+  - name: watchlist
+    description: Watchlist
+  - name: profile
+    description: Profile
+  - name: comments
+    description: Comments
+  - name: storage
+    description: Storage system
+
+paths:
+  # Auth
+
+  /auth/signup:
+    post:
+      tags:
+        - auth
+      summary: Sign up a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - username
+                - password
+                - firstname
+                - lastname
+                - avatar
+              properties:
+                email:
+                  type: string
+                  format: email
+                username:
+                  type: string
+                  pattern: ^[a-z0-9_]{4,16}$
+                password:
+                  type: string
+                  format: password
+                  pattern: ^.{8,512}$
+                firstname:
+                  type: string
+                  pattern: ^[a-zA-ZÀ-ž \-]{4,64}$
+                lastname:
+                  type: string
+                  pattern: ^[a-zA-ZÀ-ž \-]{4,64}$
+                avatar:
+                  type: string
+                  format: uri
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Request errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+        '409':
+          description: Email/username already used by another account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  key:
+                    type: string
+                    description: key in cause
+                    enum:
+                      - email
+                      - username
+                  error:
+                    type: string
+                    description: error message
+
+  /auth/signin:
+    post:
+      tags:
+        - auth
+      summary: Sign in an user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - login
+                - password
+              properties:
+                login:
+                  type: string
+                  description: email or username
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    format: jwt
+        '400':
+          description: Request errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+        '401':
+          description: Wrong credentials, invalid login/password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: error message
+
+  /auth/forgotpwd:
+    post:
+      tags:
+        - auth
+      summary: Send reset password email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - login
+              properties:
+                login:
+                  type: string
+                  description: email or username
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Request errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  /auth/resetpwd:
+    post:
+      tags:
+        - auth
+      summary: Reset account password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+                - new_password
+              properties:
+                token:
+                  type: string
+                  format: jwt
+                  description: reset password token
+                new_password:
+                  type: string
+                  format: password
+                  pattern: ^.{8,512}$
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Request errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+        '401':
+          description: Token error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+
+  # Acccount
+
+  /account:
+    get:
+      tags:
+        - account
+      summary: Get account data
+      security:
+        - BearerJWT: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Authentification error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+
+  /account/update:
+    post:
+      tags:
+        - account
+      summary: Update account data
+      security:
+        - BearerJWT: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                username:
+                  type: string
+                  pattern: ^[a-z0-9_]{4,16}$
+                password:
+                  type: string
+                  format: password
+                  pattern: ^.{8,512}$
+                firstname:
+                  type: string
+                  pattern: ^[a-zA-ZÀ-ž \-]{4,64}$
+                lastname:
+                  type: string
+                  pattern: ^[a-zA-ZÀ-ž \-]{4,64}$
+                avatar:
+                  type: string
+                  format: uri
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Request errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+        '401':
+          description: Authentification error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+
+  /account/activate:
+    post:
+      tags:
+        - account
+      summary: Activate user account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+              properties:
+                token:
+                  type: string
+                  format: jwt
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Token error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+
+  /account/activate/send:
+    post:
+      tags:
+        - account
+      summary: Send account activation email
+      security:
+        - BearerJWT: []
+      responses:
+        '202':
+          description: Accepted
+        '401':
+          description: Authentification error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+
+  /account/delete:
+    delete:
+      tags:
+        - account
+      summary: Delete account
+      security:
+        - BearerJWT: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Account not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  # Movie
+
+  /movies:
+    get:
+      tags:
+        - movies
+      summary: Get popular movies
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: lang
+          in: query
+          schema:
+            type: string
+            enum:
+              - 'en-US'
+              - 'fr-FR'
+            default: en-US
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 500
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - page
+                  - total_pages
+                  - results
+                properties:
+                  page:
+                    type: integer
+                    minimum: 1
+                    maximum: 500
+                  total_pages:
+                    type: integer
+                    minimum: 1
+                    maximum: 500
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Movie'
+        '400':
+          description: Request errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+        '401':
+          description: Authentification error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+        '409':
+          description: Paging error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  /movies/details/{id}:
+    get:
+      tags:
+        - movies
+      summary: Get popular movies
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: id
+          in: 'path'
+          required: true
+          type: 'integer'
+          format: 'int64'
+      responses:
+        '200':
+          description: OK
+
+        '404':
+          description: Movie not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  /movies/credits/{id}:
+    get:
+      tags:
+        - movies
+      summary: Get movie credits
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: id
+          in: 'path'
+          required: true
+          type: 'integer'
+          format: 'int64'
+      responses:
+        '200':
+          description: OK
+
+        '404':
+          description: Movie not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  /movies/torrents/{imdb_id}:
+    get:
+      tags:
+        - movies
+      summary: Get movie torrents
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: imdb_id
+          in: 'path'
+          required: true
+          type: 'string'
+          format: 'int64'
+      responses:
+        '200':
+          description: OK
+
+        '404':
+          description: Subtitles not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  /movies/subtitles/{imdb_id}:
+    get:
+      tags:
+        - movies
+      summary: Get movie subtitles
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: imdb_id
+          in: 'path'
+          required: true
+          type: 'integer'
+          format: 'int64'
+      responses:
+        '200':
+          description: OK
+
+        '404':
+          description: Subtitles not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  /movies/genres:
+    get:
+      tags:
+        - movies
+      summary: Get movie genres
+      security:
+        - BearerJWT: []
+      responses:
+        '200':
+          description: OK
+
+  # Watchlist
+
+  /account/watchlist/details:
+    get:
+      tags:
+        - watchlist
+      summary: Get watchlist details
+      security:
+        - BearerJWT: []
+      responses:
+        '200':
+          description: OK
+
+  /account/watchlist/{movieId}:
+    put:
+      tags:
+        - watchlist
+      summary: Put a movie on watchlist
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: movieId
+          in: 'path'
+          required: true
+          type: 'integer'
+          format: 'int64'
+      responses:
+        '201':
+          description: OK
+    delete:
+      tags:
+        - watchlist
+      summary: Delete a movie on watchlist
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: movieId
+          in: 'path'
+          required: true
+          type: 'integer'
+          format: 'int64'
+      responses:
+        '201':
+          description: OK
+
+  # Profile
+
+  /profile/{username}:
+    get:
+      tags:
+        - profile
+      summary: Get profile informations
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: username
+          in: 'path'
+          required: true
+          type: 'string'
+      responses:
+        '200':
+          description: OK
+
+        '404':
+          description: Profile not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  # Comments
+
+  /movies/{movieId}/comments:
+    get:
+      tags:
+        - comments
+      summary: Get movie comments
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: movieId
+          in: 'path'
+          required: true
+          type: 'integer'
+          format: 'int64'
+      responses:
+        '200':
+          description: OK
+
+  /movies/comments:
+    put:
+      tags:
+        - comments
+      summary: Put movie comments
+      security:
+        - BearerJWT: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - movieId
+                - message
+              properties:
+                movieId:
+                  type: integer
+                  format: int64
+                message:
+                  type: string
+      responses:
+        '201':
+          description: OK
+
+  /movies/{movieId}/comments/{commentId}:
+    delete:
+      tags:
+        - comments
+      summary: Delete movie comment
+      security:
+        - BearerJWT: []
+      parameters:
+        - name: movieId
+          in: 'path'
+          required: true
+          type: 'integer'
+          format: 'int64'
+        - name: commentId
+          in: 'path'
+          required: true
+          type: 'string'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Comment not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  # Storage
+
+  /storage/upload:
+    put:
+      tags:
+        - storage
+      summary: Upload a file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - type
+                - file
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - avatar
+                file:
+                  type: string
+                  format: binary
+            encoding:
+              file:
+                contentType: image/png, image/jpeg
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - link
+                properties:
+                  link:
+                    type: string
+                    format: uri
+        '400':
+          description: Request errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+  # Default
+
+  /watch:
+    get:
+      summary: Start a movie streaming
+      parameters:
+        - name: magnet
+          in: query
+          required: true
+          schema:
+            type: string
+            format: magnet
+      responses:
+        '206':
+          description: Streaming is running
+        '400':
+          description: Request errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+
+components:
+  securitySchemes:
+    BearerJWT:
+      type: http
+      scheme: bearer
+
+  schemas:
+    Account:
+      type: object
+      required:
+        - '_id'
+        - email
+        - username
+        - firstname
+        - lastname
+        - avatar
+        - watchlist
+      properties:
+        _id:
+          type: string
+          format: id
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+          pattern: ^[a-z0-9_]{4,16}$
+        firstname:
+          type: string
+          pattern: ^[a-zA-ZÀ-ž \-]{4,64}$
+        lastname:
+          type: string
+          pattern: ^[a-zA-ZÀ-ž \-]{4,64}$
+        avatar:
+          type: string
+          format: uri
+        watchlist:
+          type: array
+          items:
+            type: integer
+        authProvider:
+          type: string
+          enum:
+            - local
+            - google
+            - '42'
+          default: local
+        verified:
+          type: boolean
+          default: false
+        authID:
+          type: string
+
+    Movie:
+      type: object
+      required:
+        - id
+        - title
+        - genres
+        - vote
+        - release_date
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        genres:
+          type: array
+          items:
+            type: string
+        vote:
+          type: integer
+          minimum: 0
+          maximum: 10
+        release_date:
+          type: string
+          format: date
+        poster:
+          type: string
+          format: uri
+        original_title:
+          type: string
+
+    Movie_Details:
+      type: object
+      required:
+
+    Error:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+        msg:
+          type: string
+
+    RequestError:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - msg
+              - param
+              - location
+            properties:
+              msg:
+                type: string
+              param:
+                type: string
+              location:
+                type: string
+                enum:
+                  - query
+                  - body
+                  - param
+                  - header
+              value:
+                type: any

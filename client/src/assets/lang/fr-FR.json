@@ -1,0 +1,64 @@
+{
+  "err_404": "Oups, nous avons un problème...",
+  "home": "Accueil",
+  "logout": "Se déconnecter",
+  "account": "Mon compte",
+  "account_of": "Compte de $1",
+
+  "signin": "Connexion",
+  "login": "Email ou Nom d'Utilisateur",
+  "password": "Mot de Passe",
+
+  "err_credential": "Le couple identifiant / mot de passe est invalide.",
+
+  "signup": "Inscription",
+  "firstname": "Prénom",
+  "lastname": "Nom de Famille",
+  "username": "Nom d'Utilisateur",
+  "email": "Email",
+  "confirm": "Confirmation",
+  "photo": "Photo de profil",
+
+  "err_firstname": "Votre prénom est invalide.",
+  "err_lastname": "Votre nom de famille est invalide.",
+  "err_email": "Votre email est invallide.",
+  "err_username": "Votre nom d'utilisateur est invalide.",
+  "err_password": "Votre mot de passe doit contenir min. 8 caractères dont un chiffre",
+  "err_confirm": "Les mots de passes ne correspondent pas.",
+  "err_avatar": "Vous devez fournir un avatar",
+  "err_avatar_too_large": "Votre avatar est trop lourd (200Ko max)",
+  "err_email_already_used": "Cet email est déjà utilisé.",
+  "err_username_already_used": "Ce nom d'utilisateur est déjà utilisé.",
+
+  "forgot_password": "Mot de passe oublié ?",
+  "send_email": "Envoyer un email",
+  "account_question": "Vous n'avez pas de compte ? Inscrivez-vous !",
+  "email_sent": "Votre email de réinitialisation a été envoyé !",
+  "account_updated": "Votre compte a bien été mise à jour",
+
+  "search": "Rechercher",
+
+  "modify_data": "Modifier mes données",
+  "language": "Langage",
+  "watchlist": "Liste de lecture",
+
+  "profile": "Profil",
+
+  "download": "Télécharger",
+  "release": "Date de sortie",
+  "duration": "Durée",
+  "minutes": "minutes",
+  "prod_companies": "Producteurs",
+  "overview": "Synopsis",
+  "categories": "Catégories",
+  "casting": "Casting",
+  "crew": "Equipe Technique",
+  "comments": "Commentaires",
+  "send": "Envoyer",
+
+  "filters": "Choisissez votre filtre.",
+  "filter": "Filtrer",
+  "year": "Année",
+  "category": "Catégorie",
+  "none": "Aucune"
+}

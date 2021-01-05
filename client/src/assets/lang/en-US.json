@@ -1,0 +1,64 @@
+{
+  "err_404": "Oups, we fucked up...",
+  "home": "Home",
+  "logout": "Logout",
+  "account": "My Account",
+  "account_of": "$1's account",
+
+  "signin": "Sign In",
+  "login": "Email or Username",
+  "password": "Password",
+
+  "err_credential": "Invalid credentials. Please retry.",
+
+  "signup": "Sign Up",
+  "firstname": "First Name",
+  "lastname": "Last Name",
+  "username": "Username",
+  "email": "Email",
+  "confirm": "Confirm",
+  "photo": "Profile Picture",
+
+  "err_firstname": "Invalid First Name.",
+  "err_lastname": "Invalid Last Name.",
+  "err_email": "Invalid Email.",
+  "err_username": "Invalid Username.",
+  "err_password": "Your password needs at least 8 characters with one number.",
+  "err_confirm": "Passwords doesn't match.",
+  "err_avatar": "You must provide an avatar",
+  "err_avatar_too_large": "Avatar too large (200Kb max)",
+  "err_email_already_used": "This email has already been used.",
+  "err_username_already_used": "This username has aready been used.",
+
+  "forgot_password": "Forgot Pasword ?",
+  "send_email": "Send Email",
+  "account_question": "Don't have an account yet ? Sign up.",
+  "email_sent": "Your reset password email has been sent.",
+  "account_updated": "Your account has successfuly updated",
+
+  "search": "Search",
+
+  "modify_data": "Modify Data",
+  "language": "Language",
+  "watchlist": "Watchlist",
+
+  "profile": "Profile",
+
+  "download": "Download",
+  "release": "Released on",
+  "duration": "Duration",
+  "minutes": "minutes",
+  "prod_companies": "Production Companies",
+  "overview": "Overview",
+  "categories": "Categories",
+  "casting": "Casting",
+  "crew": "Crew",
+  "comments": "Comments",
+  "send": "Send",
+
+  "filters": "Choose your filters.",
+  "filter": "Filter",
+  "year": "Year",
+  "category": "Category",
+  "none": "None"
+}

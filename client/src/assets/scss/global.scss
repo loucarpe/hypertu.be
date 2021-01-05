@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css?family=Muli:400,400i,500,500i,600,600ii&display=swap');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,500,500i,600,600i&display=swap');
+
+@import './vars.scss';
+
+/*
+ * Reset CSS
+ */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 1em;
+  font: inherit;
+  vertical-align: baseline;
+}
+ol,
+ul {
+  list-style: none;
+}
+
+/*
+ * Global Theme
+ */
+div#root {
+  background-color: $black-light;
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+}
+
+html {
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+  overflow-x: hidden;
+}
+
+body {
+  font-family: $font !important;
+  line-height: 1.42;
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-title !important;
+}
+
+/*
+ * Overrides
+ */
+.MuiSkeleton-root {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.MuiBackdrop-root {
+  z-index: 42 !important;
+}
+
+@keyframes MuiSkeleton-keyframes-pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*
+ * Utilities
+ */
+.hidden {
+  display: none;
+}
+
+.page {
+  padding-top: $header-height;
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
+}
+
+.fullscreen-page {
+  min-height: 100vh;
+}
+
+.link {
+  color: $red;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

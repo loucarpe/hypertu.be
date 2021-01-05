@@ -1,0 +1,31 @@
+@import '../../assets/scss/vars.scss';
+
+div#search-bar {
+  div#search {
+    form {
+      transition: all 0.2s ease-in-out;
+    }
+
+    input {
+      width: 50vw;
+      max-width: 500px;
+      margin-left: -22px;
+      text-align: center;
+
+      &:focus {
+        &::placeholder {
+          color: transparent;
+        }
+      }
+    }
+  }
+}
+
+#genre-form,
+#year-form {
+  min-width: 125px;
+}
+
+#genre-form {
+  margin-left: 25px;
+}
